@@ -11,37 +11,40 @@ const guestCount = document.querySelector(".attendance");
 // alert when guest list is full (not yet visible)
 const guestFull = document.querySelector(".alert");
 
-// assign button
-const assignButton = document.querySelector(".assign");
-// assigned items
-const assignedItems = document.querySelector(".assigned-items");
-
-
+// event listener for the invite button
 addGuestButton.addEventListener("click", function () {
     const guest = guestInput.value;
     // console.log(guest);
-
+    // if statement to check if the guest variable is not empty
     if (guest !== "") {
+        // calling the addToList function
         addToList(guest);
-        updateGuestCount()
-        clearInput();;
+        // calling the updateGuestCount function
+        updateGuestCount();
+        // calling the clearInput function
+        clearInput();
+
     }
 });
 
+// clear the input box function
+const clearInput = function () {
+    guestInput.value = "";
+}
+
 const addToList = function (guest) {
+    // create a variable in order to create an HTML element (li)
     const listItem = document.createElement("li");
+    // change the innerText of the listItem to guest
     listItem.innerText = guest;
+    // append the listItem to the unordered list (guestList)
     guestList.append(listItem);
 };
 
-const clearInput = function () {
-    guestInput.value = "";
-};
-
+// function to limit the guest list
 const updateGuestCount = function () {
     const guests = document.querySelectorAll(".guest-list li");
     guestCount.innerText = guests.length;
-
     if (guests.length === 8) {
         addGuestButton.classList.add("hide");
         guestInput.classList.add("hide");
@@ -49,29 +52,3 @@ const updateGuestCount = function () {
         guestFull.classList.remove("hide");
     }
 };
-
-const assignItems = function () {
-    const potluckItems = ["potato salad", "hummus", "mici", "onion", "beats", "avocado", "bread",
-        "cheese", "grapes", "olives", "cucumbers", "parsley leaves"];
-
-    const allGuests = document.querySelectorAll(".guest-list li");
-
-    for (let guest of allGuests) {
-        let randomPotluckIndex = Math.floor(Math.random() * potluckItems.length);
-        let randomPotluckItem = potluckItems[randomPotluckIndex];
-
-        let listItem = document.createElement("li");
-        listItem.innerText = `${guest.innerText} is bringing ${randomPotluckItem}.`;
-        assignedItems.append(listItem);
-
-        potluckItems.splice(randomPotluckIndex, 1);
-    }
-};
-
-assignButton.addEventListener("click", function () {
-    assignItems();
-    assignButton.disabled = true;
-});
-
-
-
